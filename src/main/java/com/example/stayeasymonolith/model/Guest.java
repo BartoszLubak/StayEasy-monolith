@@ -1,2 +1,15 @@
-package com.example.stayeasymonolith.model;public class Guest {
+package com.example.stayeasymonolith.model;
+
+import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+
+@Entity
+@NoArgsConstructor
+public class Guest {
+    @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    private long id;
+    @Embedded
+    private Name name;
+    private boolean child;
 }

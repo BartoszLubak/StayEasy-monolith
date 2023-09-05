@@ -3,17 +3,17 @@ package com.example.stayeasymonolith.model;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class GuestName {
+public class Name {
     private String firstName;
     private String lastName;
     private GuestType guestType;
 
-    public GuestName(String firstName, String lastName) {
+    public Name(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public GuestName(String firstName, String lastName, GuestType guestType) {
+    public Name(String firstName, String lastName, GuestType guestType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.guestType = guestType;
