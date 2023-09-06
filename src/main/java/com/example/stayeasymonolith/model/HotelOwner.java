@@ -2,7 +2,6 @@ package com.example.stayeasymonolith.model;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.EmbeddableInstantiatorRegistrations;
 
 import java.util.List;
 
