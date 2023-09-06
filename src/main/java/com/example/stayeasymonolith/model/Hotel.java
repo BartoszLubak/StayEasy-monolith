@@ -23,4 +23,7 @@ public class Hotel {
     private int stars;
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms;
+    @ManyToOne
+    @JoinColumn(name = "hotel_owner_id")
+    private HotelOwner hotelOwner;
 }

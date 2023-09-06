@@ -1,16 +1,19 @@
 package com.example.stayeasymonolith.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.EmbeddableInstantiatorRegistrations;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 public class HotelOwner {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    @OneToMany(mappedBy = "hotelOwner")
+    private List<Hotel> hotels;
+    @Embedded
+    private Name name;
 }

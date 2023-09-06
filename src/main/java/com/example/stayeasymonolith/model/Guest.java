@@ -12,4 +12,7 @@ public class Guest {
     @Embedded
     private Name name;
     private boolean child;
+    @ManyToOne
+    @JoinColumn (name = "guest_id")
+    private Reservation reservation;
 }

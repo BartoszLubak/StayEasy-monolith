@@ -1,21 +1,17 @@
 package com.example.stayeasymonolith.model;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
+@Getter
+@Setter
+@NoArgsConstructor
 public class Name {
     private String firstName;
     private String lastName;
-    private GuestType guestType;
+    private Type type;
 
-    public Name(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public Name(String firstName, String lastName, GuestType guestType) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.guestType = guestType;
-    }
 }

@@ -1,7 +1,8 @@
 package com.example.stayeasymonolith.model;
 
-public enum GuestType {
+public enum Type {
     REGULAR,
     BUSINESS,
-    PREMIUM
+    PREMIUM,
+    OWNER
 }
