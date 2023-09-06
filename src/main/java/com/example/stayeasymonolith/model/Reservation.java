@@ -11,8 +11,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Reservation {
     @Id
-    @GeneratedValue (strategy = GenerationType.UUID)
-    private UUID uuid;
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    private long id;
     @ManyToOne
     private Room room;
     @Column(columnDefinition = "DATE")

@@ -28,23 +28,23 @@ INSERT INTO room (availability, beds, cost, guests, room_number, room_type, hote
 VALUES (FALSE, 3, 200.00, 3, 201, 2, 2, 3);
 
 
-INSERT INTO reservation (check_in, check_out, room_id, uuid)
-VALUES ('2023-09-10', '2023-09-15', 1, 'c9e0e56d-7ebf-4e57-a318-4d0e9de66c57');
+INSERT INTO reservation (check_in, check_out, room_id, id)
+VALUES ('2023-09-10', '2023-09-15', 1, 1);
 
-INSERT INTO reservation (check_in, check_out, room_id, uuid)
-VALUES ('2023-10-05', '2023-10-10', 2, '0b8d15a4-07d1-430b-99d5-924f0427c405');
+INSERT INTO reservation (check_in, check_out, room_id, id)
+VALUES ('2023-10-05', '2023-10-10', 2, 2);
 
-INSERT INTO reservation (check_in, check_out, room_id, uuid)
-VALUES ('2023-11-20', '2023-11-25', 3, '9f08d3b1-2df0-4b8e-b09f-4f792c5b7b65');
+INSERT INTO reservation (check_in, check_out, room_id, id)
+VALUES ('2023-11-20', '2023-11-25', 3, 3);
 
-
-INSERT INTO guest (child, type, id, reservation_id, first_name, last_name)
-VALUES (FALSE, 0, 1, 'c9e0e56d-7ebf-4e57-a318-4d0e9de66c57', 'Jan', 'Kowalski');
 
 INSERT INTO guest (child, type, id, reservation_id, first_name, last_name)
-VALUES (TRUE, 1, 2, '0b8d15a4-07d1-430b-99d5-924f0427c405', 'Anna', 'Nowak');
+VALUES (FALSE, 0, 1, 1, 'Jan', 'Kowalski');
 
 INSERT INTO guest (child, type, id, reservation_id, first_name, last_name)
-VALUES (FALSE, 2, 3, '9f08d3b1-2df0-4b8e-b09f-4f792c5b7b65', 'Marek', 'Wiśniewski');
+VALUES (TRUE, 1, 2, 2, 'Anna', 'Nowak');
+
+INSERT INTO guest (child, type, id, reservation_id, first_name, last_name)
+VALUES (FALSE, 2, 3, 3, 'Marek', 'Wiśniewski');
 
 
