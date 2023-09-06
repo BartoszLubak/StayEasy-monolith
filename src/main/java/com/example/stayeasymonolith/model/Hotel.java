@@ -16,7 +16,6 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Min(5)
     private String name;
     @Embedded
     private Address address;

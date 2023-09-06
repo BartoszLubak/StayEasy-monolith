@@ -13,6 +13,6 @@ public class Guest {
     private Name name;
     private boolean child;
     @ManyToOne
-    @JoinColumn (name = "guest_id")
+    @JoinColumn (name = "reservation_id")
     private Reservation reservation;
 }
