@@ -9,7 +9,10 @@ VALUES (2, 3, 'Bob', 'Johnson');
 
 
 INSERT INTO hotel (stars, hotel_owner_id, id, city, country, name, number, street_name)
-VALUES (4, 1, 1, 'Gdańsk', 'Polska', 'Grano Hotel', '5', 'Pszenna');
+VALUES (4, 1, 1, 'Gdańsk', 'Polska', 'Grano', '5', 'Pszenna');
+
+INSERT INTO hotel (stars, hotel_owner_id, id, city, country, name, number, street_name)
+VALUES (5, 3, 4, 'Gdańsk', 'Polska', 'Królewski', '5', 'Pszenna');
 
 INSERT INTO hotel (stars, hotel_owner_id, id, city, country, name, number, street_name)
 VALUES (3, 2, 2, 'Warszawa', 'Polska', 'Centralny Hotel', '10', 'Krakowska');
@@ -46,5 +49,4 @@ VALUES (TRUE, 1, 2, 2, 'Anna', 'Nowak');
 
 INSERT INTO guest (child, type, id, reservation_id, first_name, last_name)
 VALUES (FALSE, 2, 3, 3, 'Marek', 'Wiśniewski');
-
 

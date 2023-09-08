@@ -1,12 +1,14 @@
 package com.example.stayeasymonolith.service;
 
+import com.example.stayeasymonolith.exceptions.HotelNotFoundException;
 import com.example.stayeasymonolith.model.Hotel;
 import com.example.stayeasymonolith.repository.HotelRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
 
 
 @Service
@@ -17,11 +19,40 @@ public class HotelService {
         this.hotelRepository = hotelRepository;
     }
 
-    public Page<Hotel> findHotelsByAddress_City(Pageable pageable, String city) {
-        return hotelRepository.findHotelsByAddress_City(pageable, city);
+    public Page<Hotel> findHotelsByNameOrAddress_City(Pageable pageable, String name, String city) {
+        boolean nameCheck = !name.isEmpty() || !name.isBlank();
+        boolean cityCheck = !city.isEmpty() || !city.isBlank();
+        Page<Hotel> hotels = new PageImpl<>(Collections.emptyList());
+        if(nameCheck && cityCheck){
+            hotels = hotelRepository.findAllByNameAndAddress_City(pageable, name, city);
+        } else if (!nameCheck) {
+            hotels = hotelRepository.findHotelsByAddress_City(pageable, city);
+        } else {
+            hotels = hotelRepository.findHotelsByName(pageable, name);
+        }
+        throwExceptionWhenHotelListIsEmpty(hotels);
+        return hotels;
     }
 
-    public Page<Hotel> findAllHotels(Pageable pageable){
-        return hotelRepository.findAll(pageable);
+    public Page<Hotel> findAllHotels(Pageable pageable) {
+        Page<Hotel> hotels = hotelRepository.findAll(pageable);
+        throwExceptionWhenHotelListIsEmpty(hotels);
+        return hotels;
+    }
+
+    public Page<Hotel> findAllHotelsByHotelOwner(Pageable pageable, String hotelOwner) {
+        Page<Hotel> hotels = hotelRepository.findHotelsByHotelOwner(pageable, hotelOwner);
+        throwExceptionWhenHotelListIsEmpty(hotels);
+        return hotels;
+    }
+
+    public Hotel findById(long id) {
+        return hotelRepository.findHotelById(id).orElseThrow(() -> new HotelNotFoundException("Hotel with given id: %s do not exist".formatted(id)));
+    }
+
+    private void throwExceptionWhenHotelListIsEmpty(Page<Hotel> hotels) {
+        if (hotels.isEmpty()) {
+            throw new HotelNotFoundException("Hotel list is empty.");
+        }
     }
 }
