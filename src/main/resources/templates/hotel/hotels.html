@@ -23,6 +23,7 @@
             <th scope="col"><a class="sorted" sd:pagination-sort="hotel.address.city">City</a></th>
             <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Stars</a></th>
             <th scope="col">Available rooms</th>
+            <th scope="col">Delete hotel</th>
         </tr>
         </thead>
         <tbody>
@@ -31,6 +32,11 @@
             <td th:text="${hotel.address.city}">City</td>
             <td th:text="${hotel.stars}">Stars</td>
             <td th:text="${hotel.rooms.size()}">Available rooms</td>
+            <td>
+                <form th:action="@{/hotels/delete/{id}(id=${hotel.id})}" method="get">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -8,10 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HotelController {
@@ -52,6 +49,24 @@ public class HotelController {
         Page<Hotel> hotels = hotelService.findAllHotels(pageable);
         model.addAttribute("hotels", hotels);
         return "/hotel/hotels";
+    }
+
+    @GetMapping("/hotels/new")
+    public String getNewHotel(Model model) {
+        model.addAttribute("hotel", new Hotel());
+        return "/hotel/hotel-save";
+    }
+
+    @PostMapping("/hotels/new")
+    public String addNewHotel (@ModelAttribute Hotel hotel){
+        hotelService.saveHotel(hotel);
+        return "redirect:/hotels/%d".formatted(hotel.getId());
+    }
+
+    @GetMapping ("/hotels/delete/{id}")
+    public String deleteHotel (@PathVariable long id){
+        hotelService.deleteHotel(hotelService.findById(id));
+        return "redirect:/hotels";
     }
 
     @ExceptionHandler(HotelNotFoundException.class)
