@@ -23,6 +23,7 @@
             <th scope="col"><a class="sorted" sd:pagination-sort="hotel.address.city">City</a></th>
             <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Stars</a></th>
             <th scope="col">Available rooms</th>
+            <th scope="col">Details</th>
             <th scope="col">Delete hotel</th>
         </tr>
         </thead>
@@ -33,6 +34,11 @@
             <td th:text="${hotel.stars}">Stars</td>
             <td th:text="${hotel.rooms.size()}">Available rooms</td>
             <td>
+                <form th:action="@{/hotels/{id}(id=${hotel.id})}" method="get">
+                    <button type="submit">Details</button>
+                </form>
+            </td>
+            <td>
                 <form th:action="@{/hotels/delete/{id}(id=${hotel.id})}" method="get">
                     <button type="submit">Delete</button>
                 </form>
@@ -41,6 +47,7 @@
         </tbody>
     </table>
 </div>
+<section th:insert="~{fragments/searchSection}"></section>
 <footer th:insert="~{fragments/footer}"></footer>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/scripts.js}"></script>

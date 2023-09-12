@@ -40,8 +40,8 @@ public class HotelController {
     @GetMapping("/hotels/{id}")
     public String getHotelsById(@PathVariable Long id, Model model) {
         Hotel hotel = hotelService.findById(id);
-        model.addAttribute("hotels", hotel);
-        return "/hotel/hotels";
+        model.addAttribute("hotel", hotel);
+        return "/hotel/hotel-details";
     }
 
     @GetMapping("/hotels")
