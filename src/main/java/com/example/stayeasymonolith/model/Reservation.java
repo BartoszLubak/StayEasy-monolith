@@ -13,12 +13,12 @@ public class Reservation {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne
-    private Room room;
+    @ManyToMany(mappedBy = "reservations")
+    private List<Room> rooms;
     @Column(columnDefinition = "DATE")
     private LocalDate checkIn;
     @Column(columnDefinition = "DATE")
     private LocalDate checkOut;
-    @OneToMany (mappedBy = "reservation", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "reservation")
     private List <Guest> guest;
 }

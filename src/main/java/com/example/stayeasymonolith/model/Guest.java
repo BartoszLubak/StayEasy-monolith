@@ -12,7 +12,7 @@ public class Guest {
     @Embedded
     private Name name;
     private boolean child;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "reservation_id")
     private Reservation reservation;
 }

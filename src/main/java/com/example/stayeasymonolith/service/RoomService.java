@@ -1,12 +1,14 @@
 package com.example.stayeasymonolith.service;
 
+import com.example.stayeasymonolith.exceptions.RoomNotFoundException;
 import com.example.stayeasymonolith.model.Hotel;
 import com.example.stayeasymonolith.model.Room;
 import com.example.stayeasymonolith.model.RoomType;
 import com.example.stayeasymonolith.repository.RoomRepository;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.math.BigDecimal;
 
@@ -18,19 +20,27 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    public Page<Room> findRoomsByHotel(Hotel hotel) {
-        return roomRepository.findRoomsByHotel(hotel);
+    public Page<Room> findRoomsByHotel(Pageable pageable, Hotel hotel) {
+        Page<Room> rooms = roomRepository.findRoomsByHotel(pageable, hotel);
+        throwRoomNotFoundExceptionWhenRoomPageIsEmpty(rooms);
+        return rooms;
     }
 
-    public Page<Room> findAvailableRoomsByHotel(Hotel hotel, boolean availability) {
-        return roomRepository.findRoomsByHotelAndAvailability(hotel, availability);
+
+    public Page<Room> findAvailableRoomsByHotel(Pageable pageable, Hotel hotel, boolean availability) {
+        Page<Room> rooms = roomRepository.findRoomsByHotelAndAvailability(pageable, hotel, availability);
+        throwRoomNotFoundExceptionWhenRoomPageIsEmpty(rooms);
+        return rooms;
     }
 
-    public Page<Room> findAvailableRoomsByHotelAndRoomType(Hotel hotel, boolean availability, RoomType roomType) {
-        return roomRepository.findRoomsByHotelAndAvailabilityAndRoomType(hotel, availability, roomType);
+    public Page<Room> findAvailableRoomsByHotelAndRoomType(Pageable pageable, Hotel hotel, boolean availability, RoomType roomType) {
+        Page<Room> rooms = roomRepository.findRoomsByHotelAndAvailabilityAndRoomType(pageable, hotel, availability, roomType);
+        throwRoomNotFoundExceptionWhenRoomPageIsEmpty(rooms);
+        return rooms;
     }
 
-    public Page<Room> findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(Hotel hotel,
+    public Page<Room> findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(Pageable pageable,
+                                                                               Hotel hotel,
                                                                                boolean availability,
                                                                                RoomType roomType,
                                                                                BigDecimal minCost,
@@ -38,11 +48,18 @@ public class RoomService {
         Page<Room> availableRooms = null;
         if (roomType == null) {
             availableRooms = roomRepository
-                    .findRoomsByHotelAndAvailabilityAndCostBetween(hotel, availability, minCost, maxCost);
+                    .findRoomsByHotelAndAvailabilityAndCostBetween(pageable, hotel, availability, minCost, maxCost);
         } else {
             availableRooms = roomRepository
-                    .findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(hotel, availability, roomType, minCost, maxCost);
+                    .findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(pageable, hotel, availability, roomType, minCost, maxCost);
         }
+        throwRoomNotFoundExceptionWhenRoomPageIsEmpty(availableRooms);
         return availableRooms;
+    }
+
+    private void throwRoomNotFoundExceptionWhenRoomPageIsEmpty(Page<Room> rooms) {
+        if (rooms.isEmpty()) {
+            throw new RoomNotFoundException("Room List is empty.");
+        }
     }
 }

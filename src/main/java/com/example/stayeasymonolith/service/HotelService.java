@@ -28,19 +28,19 @@ public class HotelService {
         } else {
             hotels = hotelRepository.findHotelsByName(pageable, name);
         }
-        throwHotelNotFoundExceptionWhenHotelListIsEmpty(hotels);
+        throwHotelNotFoundExceptionWhenHotelPageIsEmpty(hotels);
         return hotels;
     }
 
     public Page<Hotel> findAllHotels(Pageable pageable) {
         Page<Hotel> hotels = hotelRepository.findAll(pageable);
-        throwHotelNotFoundExceptionWhenHotelListIsEmpty(hotels);
+        throwHotelNotFoundExceptionWhenHotelPageIsEmpty(hotels);
         return hotels;
     }
 
     public Page<Hotel> findAllHotelsByHotelOwner(Pageable pageable, String hotelOwner) {
         Page<Hotel> hotels = hotelRepository.findHotelsByHotelOwner(pageable, hotelOwner);
-        throwHotelNotFoundExceptionWhenHotelListIsEmpty(hotels);
+        throwHotelNotFoundExceptionWhenHotelPageIsEmpty(hotels);
         return hotels;
     }
 
@@ -49,7 +49,7 @@ public class HotelService {
                 .orElseThrow(() -> new HotelNotFoundException("Hotel with given id: %s do not exist".formatted(id)));
     }
 
-    private void throwHotelNotFoundExceptionWhenHotelListIsEmpty(Page<Hotel> hotels) {
+    private void throwHotelNotFoundExceptionWhenHotelPageIsEmpty(Page<Hotel> hotels) {
         if (hotels.isEmpty()) {
             throw new HotelNotFoundException("Hotel list is empty.");
         }
