@@ -6,6 +6,7 @@ import com.example.stayeasymonolith.service.RoomService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -20,9 +21,14 @@ public class RoomController {
     }
 
     @GetMapping("/hotels/{hotelId}/rooms")
-    public String findRoomsByHotel (@PathVariable long hotelId, Model model, Pageable pageable){
+    public String findRoomsByHotel(@PathVariable long hotelId, Model model, Pageable pageable) {
         Hotel hotel = hotelService.findById(hotelId);
         model.addAttribute("rooms", roomService.findRoomsByHotel(pageable, hotel));
         return "/room/rooms";
+    }
+
+    @ExceptionHandler
+    public String roomNotFoundExceptionHandler() {
+        return "/room/roomNotFoundException";
     }
 }

@@ -38,13 +38,10 @@
             <td th:text="${room.getCost()}">Cost</td>
             <td th:text="${room.isAvailability()}">Available</td>
             <td>
-<!--                <form th:action="@{/room/{id}(id=${hotel.id})}" method="get">-->
-                    <button type="submit">Details</button>
-                </form>
+                <button type="submit">Details</button>
             </td>
             <td>
-                    <button type="submit">Add to reservation</button>
-                </form>
+                <button type="submit">Add to reservation</button>
             </td>
         </tr>
         </tbody>
