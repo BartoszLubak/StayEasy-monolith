@@ -1,7 +1,10 @@
 package com.example.stayeasymonolith.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -9,6 +12,9 @@ import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Reservation {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
