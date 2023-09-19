@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprawdzanie dostępności pokoju</title>
+
+  <!-- Dodaj linki do Bootstrap CSS i JavaScript -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Dodaj link do Bootstrap Datepicker CSS i JavaScript -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Lista dostępności pokoi</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Numer pokoju</th>
+      <th>Check-in</th>
+      <th>Check-out</th>
+      <th>Dostępność</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>101</td>
+      <td>
+        <input type="text" class="form-control" id="checkIn101">
+      </td>
+      <td>
+        <input type="text" class="form-control" id="checkOut101">
+      </td>
+      <td>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#availabilityModal101">Sprawdź dostępność</button>
+      </td>
+    </tr>
+    <!-- Dodaj więcej wierszy z danymi pokoi -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal z kalendarzem sprawdzającym dostępność -->
+<div class="modal fade" id="availabilityModal101" tabindex="-1" role="dialog" aria-labelledby="availabilityModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="availabilityModalLabel">Sprawdź dostępność pokoju 101</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="checkInDate101">Data check-in:</label>
+          <div class="input-group date" id="checkInDatepicker101">
+            <input type="text" class="form-control" id="checkInDate101">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="checkOutDate101">Data check-out:</label>
+          <div class="input-group date" id="checkOutDatepicker101">
+            <input type="text" class="form-control" id="checkOutDate101">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Tutaj umieść logikę sprawdzającą dostępność i wyświetlanie odpowiedzi -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        <button type="button" class="btn btn-primary">Sprawdź dostępność</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Inicjalizacja Bootstrap Datepicker dla daty check-in (pokoju 101)
+    $('#checkInDatepicker101').datepicker({
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+    )
+    }</script>

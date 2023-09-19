@@ -32,5 +32,4 @@ public class Room {
     )
     private List<Reservation> reservations;
     private BigDecimal cost;
-    private boolean availability;
 }

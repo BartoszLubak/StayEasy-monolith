@@ -21,14 +21,14 @@ INSERT INTO hotel (stars, hotel_owner_id, id, city, country, name, number, stree
 VALUES (5, 3, 3, 'Kraków', 'Polska', 'Krakowska Rezydencja', '15', 'Słowackiego');
 
 
-INSERT INTO room (availability, beds, cost, room_number, room_type, hotel_id, id)
-VALUES (TRUE, 2, 150.00, 101, 1, 1, 1);
+INSERT INTO room (beds, cost, room_number, room_type, hotel_id, id)
+VALUES (2, 150.00, 101, 1, 1, 1);
 
-INSERT INTO room (availability, beds, cost, room_number, room_type, hotel_id, id)
-VALUES (TRUE, 1, 100.00, 102, 0, 1, 2);
+INSERT INTO room (beds, cost, room_number, room_type, hotel_id, id)
+VALUES (1, 100.00, 102, 0, 1, 2);
 
-INSERT INTO room (availability, beds, cost, room_number, room_type, hotel_id, id)
-VALUES (FALSE, 3, 200.00, 201, 2, 2, 3);
+INSERT INTO room (beds, cost, room_number, room_type, hotel_id, id)
+VALUES (3, 200.00, 201, 2, 2, 3);
 
 
 INSERT INTO reservation (check_in, check_out, id)
@@ -49,4 +49,14 @@ VALUES (TRUE, 1, 2, 2, 'Anna', 'Nowak');
 
 INSERT INTO guest (child, type, id, reservation_id, first_name, last_name)
 VALUES (FALSE, 2, 3, 3, 'Marek', 'Wiśniewski');
+
+INSERT INTO reservation_room (room_id, reservation_id)
+VALUE (1, 3);
+
+INSERT INTO reservation_room (room_id, reservation_id)
+VALUE (2, 2);
+
+INSERT INTO reservation_room (room_id, reservation_id)
+VALUE (3, 1);
+
 
