@@ -53,13 +53,18 @@ public class RoomService {
         return availableRooms;
     }
 
-    public List<Room> findAvailableHotelRoomBetweenDates(Pageable pageable,
-                                                         Hotel hotel,
-                                                         LocalDate checkIn,
-                                                         LocalDate checkOut) {
+    public List<Room> findAvailableHotelRoomsBetweenDates(Pageable pageable,
+                                                          Hotel hotel,
+                                                          LocalDate checkIn,
+                                                          LocalDate checkOut) {
+        LocalDate today = LocalDate.now();
+        LocalDate finalCheckIn = (checkIn != null && !checkIn.isBefore(today)) ? checkIn : today;
+        if(checkOut.isBefore(checkIn)){
+            throw new IllegalStateException("Invalid dates");
+        }
         return findRoomsByHotel(pageable, hotel)
                 .stream()
-                .filter(room -> reservationServiceService.checkRoomAvailabilityBetweenDates(room, checkIn, checkOut))
+                .filter(room -> reservationServiceService.checkRoomAvailabilityBetweenDates(room, finalCheckIn, checkOut))
                 .collect(Collectors.toList());
     }
 

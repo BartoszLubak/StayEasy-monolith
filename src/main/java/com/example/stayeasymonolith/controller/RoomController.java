@@ -1,5 +1,6 @@
 package com.example.stayeasymonolith.controller;
 
+import com.example.stayeasymonolith.exceptions.RoomNotFoundException;
 import com.example.stayeasymonolith.model.Hotel;
 import com.example.stayeasymonolith.service.HotelService;
 import com.example.stayeasymonolith.service.RoomService;
@@ -38,12 +39,17 @@ public class RoomController {
         model.addAttribute("checkInDate", checkInDate);
         model.addAttribute("checkOutDate", checkOutDate);
         model.addAttribute("rooms",
-                roomService.findAvailableHotelRoomBetweenDates(pageable, hotel, checkInDate, checkOutDate));
+                roomService.findAvailableHotelRoomsBetweenDates(pageable, hotel, checkInDate, checkOutDate));
         return "/room/rooms";
     }
 
-    @ExceptionHandler
+    @ExceptionHandler (RoomNotFoundException.class)
     public String roomNotFoundExceptionHandler() {
         return "/room/roomNotFoundException";
+    }
+
+    @ExceptionHandler (IllegalStateException.class)
+    public String validDateExceptionHandler() {
+        return "/room/invalidDateException";
     }
 }

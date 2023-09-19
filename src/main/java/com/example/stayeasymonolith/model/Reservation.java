@@ -1,6 +1,8 @@
 package com.example.stayeasymonolith.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +24,10 @@ public class Reservation {
     @ManyToMany(mappedBy = "reservations")
     private List<Room> rooms;
     @Column(columnDefinition = "DATE")
+    @FutureOrPresent
     private LocalDate checkIn;
     @Column(columnDefinition = "DATE")
+    @FutureOrPresent
     private LocalDate checkOut;
     @OneToMany (mappedBy = "reservation")
     private List <Guest> guest;
