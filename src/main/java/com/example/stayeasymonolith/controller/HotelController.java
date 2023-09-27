@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HotelController {
+    public static final String HOTELS_VIEW = "/hotel/hotels";
     private final HotelService hotelService;
 
     public HotelController(HotelService hotelService) {
@@ -19,13 +20,13 @@ public class HotelController {
     }
 
     @GetMapping("/hotels-search")
-    public String getHotelsByNameOrAddress_City(@RequestParam String name,
-                                                @RequestParam String city,
-                                                @SortDefault("name") Pageable pageable,
-                                                Model model) {
-        Page<Hotel> hotels = hotelService.findHotelsByNameOrAddress_City(pageable, name, city);
+    public String getHotelsByNameOrAddressCity(@RequestParam String name,
+                                               @RequestParam String city,
+                                               @SortDefault("name") Pageable pageable,
+                                               Model model) {
+        Page<Hotel> hotels = hotelService.findHotelsByNameOrAddressCity(pageable, name, city);
         model.addAttribute("hotels", hotels);
-        return "/hotel/hotels";
+        return HOTELS_VIEW;
     }
 
     @GetMapping("/hotels-search-by-owner")
@@ -34,7 +35,7 @@ public class HotelController {
                                         Model model) {
         Page<Hotel> hotels = hotelService.findAllHotelsByHotelOwner(pageable, hotelOwner);
         model.addAttribute("hotels", hotels);
-        return "/hotel/hotels";
+        return HOTELS_VIEW;
     }
 
     @GetMapping("/hotels/{id}")
@@ -48,7 +49,7 @@ public class HotelController {
     public String getAllHotels(@SortDefault("name") Pageable pageable, Model model) {
         Page<Hotel> hotels = hotelService.findAllHotels(pageable);
         model.addAttribute("hotels", hotels);
-        return "/hotel/hotels";
+        return HOTELS_VIEW;
     }
 
     @GetMapping("/hotels/new")

@@ -66,7 +66,7 @@ class HotelServiceTest {
         when(hotelRepository.findHotelsByName(Pageable.unpaged(), "Test0"))
                 .thenReturn(new PageImpl<>(List.of(hotel1)));
 
-        Page<Hotel> resultByName = hotelService.findHotelsByNameOrAddress_City(Pageable.unpaged(), "Test0", "");
+        Page<Hotel> resultByName = hotelService.findHotelsByNameOrAddressCity(Pageable.unpaged(), "Test0", "");
 
         assertThat(resultByName)
                 .isNotNull()
@@ -80,7 +80,7 @@ class HotelServiceTest {
         when(hotelRepository.findHotelsByAddress_City(Pageable.unpaged(), "Opole"))
                 .thenReturn(new PageImpl<>(hotelsInOpole));
 
-        Page<Hotel> resultByCity = hotelService.findHotelsByNameOrAddress_City(Pageable.unpaged(), "", "Opole");
+        Page<Hotel> resultByCity = hotelService.findHotelsByNameOrAddressCity(Pageable.unpaged(), "", "Opole");
 
         assertThat(resultByCity)
                 .isNotNull()
@@ -94,7 +94,7 @@ class HotelServiceTest {
         when(hotelRepository.findAllByNameAndAddress_City(Pageable.unpaged(), "Test1", "Opole"))
                 .thenReturn(new PageImpl<>(hotelsInOpole));
 
-        Page<Hotel> resultByNameAndCity = hotelService.findHotelsByNameOrAddress_City(Pageable.unpaged(), "Test1", "Opole");
+        Page<Hotel> resultByNameAndCity = hotelService.findHotelsByNameOrAddressCity(Pageable.unpaged(), "Test1", "Opole");
 
         assertThat(resultByNameAndCity)
                 .isNotNull()
@@ -108,7 +108,7 @@ class HotelServiceTest {
         when(hotelRepository.findAllByNameAndAddress_City(Pageable.unpaged(), "Test", "City"))
                 .thenReturn(Page.empty());
 
-        assertThatThrownBy(() -> hotelService.findHotelsByNameOrAddress_City(Pageable.unpaged(), "Test", "City"))
+        assertThatThrownBy(() -> hotelService.findHotelsByNameOrAddressCity(Pageable.unpaged(), "Test", "City"))
                 .isInstanceOf(HotelNotFoundException.class)
                 .hasMessage("Hotel list is empty.");
     }

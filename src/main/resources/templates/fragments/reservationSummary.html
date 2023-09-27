@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Summary</title>
+</head>
+<body>
+  <div class="ui top attached segment">
+    <div class="ui blue top attached label">Summary</div>
+
+    <div class="margin-top-10">
+      <a th:href="@{/hotel/{hotelId}(hotelId=${room.hotel.id})}"
+         th:text="${room.hotel.name}"></a>
+    </div>
+    <div class="margin-top-10" id="quickSummaryDates" th:if="${reservation.checkIn != null}">
+      <p class="bold">Check in:</p>
+      <p th:text="${reservation.checkIn}"></p>
+      <p class="bold">Check out:</p>
+      <p th:text="${reservation.checkOut}"></p>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <table class="reservation-summary-table">
+      <tbody>
+      <tr>
+        <td class="bold">Room Type</td>
+        <td th:text="${roomType}"></td>
+      </tr>
+      <tr>
+        <td class="bold">Room Number</td>
+        <td th:text="${room.getRoomNumber()}"></td>
+      </tr>
+      <tr>
+        <td class="bold">Cost per night</td>
+        <td th:text="${room.getCost()}"></td>
+      </tr>
+      <tr>
+        <td class="bold"># Capacity</td>
+        <td th:text="${room.getRoomCapacity()}"></td>
+      </tr>
+      <tr>
+        <td class="bold"># Nights</td>
+        <td th:text="${nights}"></td>
+      </tr>
+      <tr>
+        <td class="bold"># Guests</td>
+        <td th:text="${reservation.getGuest().size()}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="ui divider"></div>
+
+    <table class="reservation-summary-table">
+      <tbody>
+      <tr>
+        <td class="bold">Room</td>
+        <td th:text="${roomCost}"></td>
+      </tr>
+
+      <tr th:if="${reservation.extras.size()>0}" th:each="extra:${reservation.getExtras()}" th:method="get">
+        <td th:text="${extra.description}">Description</td>
+        <td th:text="${extra.cost}">Cost</td>
+      <tr>
+        <td class="bold">Total</td>
+        <td>
+          <h3 th:text="${reservation.getReservationCost()}"></h3>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

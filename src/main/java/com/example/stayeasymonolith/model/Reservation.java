@@ -1,16 +1,12 @@
 package com.example.stayeasymonolith.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -19,7 +15,7 @@ import java.util.UUID;
 @Setter
 public class Reservation {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToMany(mappedBy = "reservations")
     private List<Room> rooms;
@@ -29,6 +25,10 @@ public class Reservation {
     @Column(columnDefinition = "DATE")
     @FutureOrPresent
     private LocalDate checkOut;
-    @OneToMany (mappedBy = "reservation")
-    private List <Guest> guest;
+    @OneToMany(mappedBy = "reservation")
+    private List<Guest> guest;
+    private BigDecimal reservationCost;
+    @ManyToMany(mappedBy = "reservations")
+    private List<Extra> extras;
+
 }

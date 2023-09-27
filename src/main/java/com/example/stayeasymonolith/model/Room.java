@@ -23,7 +23,7 @@ public class Room {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
     private RoomType roomType;
-    private int beds;
+    private int roomCapacity;
     @ManyToMany
     @JoinTable(
             name="reservation_room",
@@ -31,5 +31,12 @@ public class Room {
             inverseJoinColumns = @JoinColumn(name = "reservation_id")
     )
     private List<Reservation> reservations;
+    @ManyToMany
+    @JoinTable(
+            name="extras_room",
+            joinColumns = @JoinColumn(name="room_id"),
+            inverseJoinColumns = @JoinColumn(name = "extras_id")
+    )
+    private List<Extra> extras;
     private BigDecimal cost;
 }

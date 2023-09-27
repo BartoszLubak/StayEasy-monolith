@@ -1,95 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sprawdzanie dostępności pokoju</title>
-
-  <!-- Dodaj linki do Bootstrap CSS i JavaScript -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <!-- Dodaj link do Bootstrap Datepicker CSS i JavaScript -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <title>Step 1 - Choose Dates and Room Type</title>
 </head>
 <body>
+<h1>Step 1 - Choose Dates and Room Type</h1>
+<form action="/reservation/step2" method="post">
+  <!-- Form fields for choosing dates and room type -->
+  <label for="checkInDate">Check-in Date:</label>
+  <input type="date" id="checkInDate" name="checkInDate" required><br>
 
-<div class="container mt-5">
-  <h1>Lista dostępności pokoi</h1>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Numer pokoju</th>
-      <th>Check-in</th>
-      <th>Check-out</th>
-      <th>Dostępność</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>101</td>
-      <td>
-        <input type="text" class="form-control" id="checkIn101">
-      </td>
-      <td>
-        <input type="text" class="form-control" id="checkOut101">
-      </td>
-      <td>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#availabilityModal101">Sprawdź dostępność</button>
-      </td>
-    </tr>
-    <!-- Dodaj więcej wierszy z danymi pokoi -->
-    </tbody>
-  </table>
-</div>
+  <label for="checkOutDate">Check-out Date:</label>
+  <input type="date" id="checkOutDate" name="checkOutDate" required><br>
 
-<!-- Modal z kalendarzem sprawdzającym dostępność -->
-<div class="modal fade" id="availabilityModal101" tabindex="-1" role="dialog" aria-labelledby="availabilityModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="availabilityModalLabel">Sprawdź dostępność pokoju 101</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="checkInDate101">Data check-in:</label>
-          <div class="input-group date" id="checkInDatepicker101">
-            <input type="text" class="form-control" id="checkInDate101">
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="checkOutDate101">Data check-out:</label>
-          <div class="input-group date" id="checkOutDatepicker101">
-            <input type="text" class="form-control" id="checkOutDate101">
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-            </div>
-          </div>
-        </div>
-        <!-- Tutaj umieść logikę sprawdzającą dostępność i wyświetlanie odpowiedzi -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Sprawdź dostępność</button>
-      </div>
-    </div>
-  </div>
-</div>
+  <label for="roomType">Room Type:</label>
+  <select id="roomType" name="roomType" required>
+    <option value="SINGLE">Single</option>
+    <option value="DOUBLE">Double</option>
+    <!-- Add more room types if needed -->
+  </select><br>
 
-<script>
-  $(document).ready(function () {
-    // Inicjalizacja Bootstrap Datepicker dla daty check-in (pokoju 101)
-    $('#checkInDatepicker101').datepicker({
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
-    )
-    }</script>
+  <!-- Submit button -->
+  <button type="submit">Next</button>
+</form>
+</body>
+</html>
+
+Krok 2: Dodanie gości
+
+reservation_step2.html
+
+html
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Step 2 - Add Guests</title>
+</head>
+<body>
+<h1>Step 2 - Add Guests</h1>
+<form action="/reservation/step3" method="post">
+  <!-- Form fields for adding guests -->
+  <label for="guests">Guests (comma separated names):</label>
+  <input type="text" id="guests" name="guests" required><br>
+
+  <!-- Hidden input to pass the reservation ID -->
+  <input type="hidden" name="reservationId" th:value="${reservation.id}">
+
+  <!-- Submit button -->
+  <button type="submit">Next</button>
+</form>
+</body>
+</html>
+
+Krok 3: Dodanie dodatków do pokoju - extras
+
+reservation_step3.html
+
+html
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Step 3 - Add Extras</title>
+</head>
+<body>
+<h1>Step 3 - Add Extras</h1>
+<form action="/reservation/step4" method="post">
+  <!-- Form fields for adding extras -->
+  <label for="extras">Extras (comma separated names):</label>
+  <input type="text" id="extras" name="extras" required><br>
+
+  <!-- Hidden input to pass the reservation ID -->
+  <input type="hidden" name="reservationId" th:value="${reservation.id}">
+
+  <!-- Submit button -->
+  <button type="submit">Next</button>
+</form>
+</body>
+</html>
+
+Krok 4: Dodanie posiłków - meals
+
+reservation_step4.html
+
+html
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Step 4 - Add Meals</title>
+</head>
+<body>
+<h1>Step 4 - Add Meals</h1>
+<form action="/reservation/step5" method="post">
+  <!-- Form fields for adding meals -->
+  <label for="meals">Meals (comma separated names):</label>
+  <input type="text" id="meals" name="meals" required><br>
+
+  <!-- Hidden input to pass the reservation ID -->
+  <input type="hidden" name="reservationId" th:value="${reservation.id}">
+
+  <!-- Submit button -->
+  <button type="submit">Next</button>
+</form>
+</body>
+</html>
+
+Krok 5: Płatność - Payment
+
+reservation_step5.html
+
+html
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Step 5 - Payment</title>
+</head>
+<body>
+<h1>Step 5 - Payment</h1>
+<form action="/reservation/confirm" method="post">
+  <!-- Form fields for payment -->
+  <label for="paymentMethod">Select Payment Method:</label>
+  <select id="paymentMethod" name="paymentMethod" required>
+    <option value="CREDIT_CARD">Credit Card</option>
+    <option value="PAYPAL">PayPal</option>
+    <!-- Add more payment methods if needed -->
+  </select><br>
+
+  <!-- Hidden input to pass the reservation ID -->
+  <input type="hidden" name="reservationId" th:value="${reservation.id}">
+
+  <!-- Submit button -->
+  <button type="submit">Confirm Reservation</button>
+</form>
+</body>
+</html>
+

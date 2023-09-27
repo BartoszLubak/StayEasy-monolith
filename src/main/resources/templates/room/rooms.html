@@ -18,7 +18,8 @@
 <nav th:insert="~{fragments/nav-bar}"></nav>
 <div class="container-fluid m-auto">
     <div>
-        <form th:action="@{'/hotels/' + ${hotelId} + '/available-rooms?checkInDate=' + ${checkInDate} + '&' + ${checkInDate}}" method="get">
+        <form th:action="@{'/hotels/' + ${hotelId} + '/available-rooms?checkInDate=' + ${checkInDate} + '&' + ${checkInDate}}"
+              method="get">
             <div class="container mt-5">
                 <h1>Show available rooms</h1>
                 <div class="row">
@@ -26,8 +27,7 @@
                         <div class="form-group">
                             <label>Check-in:</label>
                             <div class="input-group date">
-                                <input type="text" class="form-control" name="checkInDate"
-                                           pattern="\d{4}-\d{2}-\d{2}" title="Date format YYYY-MM-DD">
+                                <input type="date" class="form-control" name="checkInDate" id="checkInDate" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -39,8 +39,7 @@
                         <div class="form-group">
                             <label>Check-out:</label>
                             <div class="input-group date">
-                                    <input type="text" class="form-control" name="checkOutDate"
-                                           pattern="\d{4}-\d{2}-\d{2}" title="Date format YYYY-MM-DD">
+                                <input type="date" class="form-control" name="checkOutDate" id="checkOutDate" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -65,7 +64,6 @@
             <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Guests</a></th>
             <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Cost</a></th>
             <th scope="col">Available</th>
-            <th scope="col">Details</th>
             <th scope="col">Reservation</th>
         </tr>
         </thead>
@@ -73,17 +71,16 @@
         <tr th:each="room: ${rooms}">
             <td th:text="${room.getRoomNumber()}">Number</td>
             <td th:text="${room.getRoomType().name()}">Room Type</td>
-            <td th:text="${room.getBeds()}">Beds</td>
-            <td th:text="${room.getBeds()}">Guests</td>
+            <td th:text="${room.getRoomCapacity()}">Beds</td>
+            <td th:text="${room.getRoomCapacity()}">Guests</td>
             <td th:text="${room.getCost()}">Cost</td>
-            <td>
-                <button type="submit">Make reservation</button>
-            </td>
             <td>
                 <button type="submit">Details</button>
             </td>
             <td>
-                <button type="submit">Add to reservation</button>
+                <button type="submit">
+                    <a th:href="@{'/reservation/' + ${hotelId}}">Reservation</a>
+                </button>
             </td>
         </tr>
         </tbody>
