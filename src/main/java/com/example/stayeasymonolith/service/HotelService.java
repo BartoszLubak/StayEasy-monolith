@@ -2,22 +2,30 @@ package com.example.stayeasymonolith.service;
 
 import com.example.stayeasymonolith.exceptions.HotelNotFoundException;
 import com.example.stayeasymonolith.model.Hotel;
+import com.example.stayeasymonolith.model.Room;
+import com.example.stayeasymonolith.model.RoomType;
 import com.example.stayeasymonolith.repository.HotelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Service
 public class HotelService {
     private final HotelRepository hotelRepository;
+    private final RoomService roomService;
 
-    public HotelService(HotelRepository hotelRepository) {
+    public HotelService(HotelRepository hotelRepository, RoomService roomService) {
         this.hotelRepository = hotelRepository;
+        this.roomService = roomService;
     }
 
-    public Page<Hotel> findHotelsByNameOrAddress_City(Pageable pageable, String name, String city) {
+    public Page<Hotel> findHotelsByNameOrAddressCity(Pageable pageable, String name, String city) {
         boolean nameCheck = !name.isEmpty() || !name.isBlank();
         boolean cityCheck = !city.isEmpty() || !city.isBlank();
         Page<Hotel> hotels;
@@ -53,6 +61,13 @@ public class HotelService {
         if (hotels.isEmpty()) {
             throw new HotelNotFoundException("Hotel list is empty.");
         }
+    }
+
+    public Set<RoomType> roomTypesInHotel (Hotel hotel){
+        return roomService.findRoomsByHotel(Pageable.unpaged(), hotel)
+                .stream()
+                .map(Room::getRoomType)
+                .collect(Collectors.toSet());
     }
 
     @Transactional

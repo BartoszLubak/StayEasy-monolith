@@ -35,7 +35,7 @@
             <td th:text="${hotel.stars}">Stars</td>
             <td th:text="${hotel.rooms.size()}">Available rooms</td>
             <td>
-                <form th:action="@{'/hotels/' + ${hotel.id} + '/rooms'}" method="get">
+                <form th:action="@{'/reservation/' + ${hotel.id}}" method="get">
                     <button type="submit">Make reservation</button>
                 </form>
             </td>

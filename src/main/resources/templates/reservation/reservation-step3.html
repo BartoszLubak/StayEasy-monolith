@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Reservation</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic}"
+          rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav th:insert="~{fragments/nav-bar}"></nav>
+<div class="container-fluid m-auto">
+    <h1>Add Extras to Reservation</h1>
+    <form id="form" class="ui form" th:action="@{/reservation/add-extras}" method="post" th:object="${reservation}">
+        <div class="field">
+            <table class="ui sortable celled table">
+                <thead>
+                <tr>
+                    <th>Extra</th>
+                    <th>Cost per night</th>
+                    <th th:text="|Total cost (${nights} ${nights == 1 ? 'night' : 'nights'})|"></th>
+                    <th>Select</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="extra,stat : ${roomExtras}">
+                    <td th:text="${extra.description}"></td>
+                    <td th:text="${extra.getCost().doubleValue()}"></td>
+                    <td th:text="${nights}*${extra.getCost().longValue()}"></td>
+                    <td>
+                        <div class="ui checkbox">
+                            <label>
+                                <input type="checkbox" th:checked="*{extras}" th:field="*{extras}" th:value="${extra.id}">
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="field">
+            <button class="ui button" type="submit" name="back">Back</button>
+            <button class="ui button" type="submit">Next</button>
+        </div>
+    </form>
+</div>
+
+<section th:insert="~{fragments/searchSection}"></section>
+<footer th:insert="~{fragments/footer}"></footer>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{https://cdn.startbootstrap.com/sb-forms-latest.js}"></script>
+</body>
+</html>

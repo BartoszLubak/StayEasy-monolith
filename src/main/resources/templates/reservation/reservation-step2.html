@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Rooms in Your Hotel</title>
+    <title>Reservation</title>
     <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet"
           type="text/css"/>
@@ -16,20 +16,29 @@
 <body>
 <nav th:insert="~{fragments/nav-bar}"></nav>
 <div class="container-fluid m-auto">
-    <div class="text-center text-dark">
-        <h1 class="mb-5">No available rooms<br>Find another</h1>
-        <button onclick="goBack()">Go back</button>
-
-    </div>
+    <h1>Add Guest to Reservation</h1>
+    <form th:action="@{/reservation/add-guests}" th:object="${guest}" method="post">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" th:field="*{name.firstName}" required><br>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" th:field="*{name.lastName}" required><br>
+        <div th:if="${guestList !=null}">
+        <label for="child">Child:</label>
+        <input type="checkbox" id="child" name="child" th:field="*{child}"><br>
+        </div>
+        <button type="submit">Add Guest</button>
+        <a th:if="${guestList != null and not #lists.isEmpty(guestList)}" class="styled-button" th:href="@{/reservation/extras}">Next</a>
+    </form>
+    <ul id="guestList">
+        <li th:each="guests : ${guestList}" th:text="${guests.name.firstName} + ' ' + ${guests.name.lastName}"></li>
+    </ul>
 </div>
+
+
 <section th:insert="~{fragments/searchSection}"></section>
 <footer th:insert="~{fragments/footer}"></footer>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/scripts.js}"></script>
 <script th:src="@{https://cdn.startbootstrap.com/sb-forms-latest.js}"></script>
-<script>
-    function goBack() {
-        window.history.back();
-    }</script>
 </body>
 </html>

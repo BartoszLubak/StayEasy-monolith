@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Reservation</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic}"
+          rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav th:insert="~{fragments/nav-bar}"></nav>
+<div class="container-fluid m-auto">
+    <h1>Step 1 - Choose Dates and Room Type</h1>
+    <form th:action="@{/reservation/dates}" method="post">
+        <label for="checkInDate">Check-in Date:</label>
+        <input type="date" id="checkInDate" name="checkInDate" required th:field="${reservation.checkIn}"><br>
+        <label for="checkOutDate">Check-out Date:</label>
+        <input type="date" id="checkOutDate" name="checkOutDate" required th:field="${reservation.checkOut}"><br>
+        <input type="hidden" id="hotelId" name="hotelId" th:value="${hotel.id}"/>
+        <label for="roomType">Room Type:</label>
+        <select id="roomType" name="roomType" required>
+            <option th:each="roomType : ${roomType}"
+                    th:value="${roomType}"
+                    th:text="${roomType}"></option>
+        </select><br>
+        <button type="submit">Next</button>
+    </form>
+
+    <div class="field">
+        <div class="ui top attached segment">
+            <div class="ui basic segment">
+                <div class="ui two column grid meta-table">
+                    <div class="row">
+                        <div class="four wide column">
+                            <p class="meta-table__header">Hotel:</p>
+                        </div>
+                        <div class="twelve wide column">
+                            <a th:href="@{'/hotels/' + ${hotel.id}}" th:text="${hotel.name}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section th:insert="~{fragments/searchSection}"></section>
+<footer th:insert="~{fragments/footer}"></footer>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{https://cdn.startbootstrap.com/sb-forms-latest.js}"></script>
+</body>
+</html>

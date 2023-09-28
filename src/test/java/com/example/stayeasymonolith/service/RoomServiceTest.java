@@ -2,6 +2,7 @@ package com.example.stayeasymonolith.service;
 
 import com.example.stayeasymonolith.exceptions.RoomNotFoundException;
 import com.example.stayeasymonolith.model.Hotel;
+import com.example.stayeasymonolith.model.Reservation;
 import com.example.stayeasymonolith.model.Room;
 import com.example.stayeasymonolith.model.RoomType;
 import com.example.stayeasymonolith.repository.RoomRepository;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,13 +31,12 @@ class RoomServiceTest {
     @InjectMocks
     private RoomService roomService;
     Hotel hotel = new Hotel();
-    Room room1 = new Room(0L, 1, hotel, RoomType.FAMILY, 3, 6, BigDecimal.valueOf(200), true);
-    Room room2 = new Room(1L, 2, hotel, RoomType.PREMIUM, 2, 3, BigDecimal.valueOf(350), false);
-    Room room3 = new Room(2L, 3, hotel, RoomType.EXTRA_VIEW, 2, 4, BigDecimal.valueOf(300), false);
-    Room room4 = new Room(2L, 4, hotel, RoomType.EXTRA_VIEW, 2, 4, BigDecimal.valueOf(300), true);
+    Room room1 = new Room(0L, 1, hotel, RoomType.FAMILY, 3, List.of(new Reservation()), List.of(), BigDecimal.valueOf(200));
+    Room room2 = new Room(1L, 2, hotel, RoomType.PREMIUM, 2, List.of(new Reservation()), List.of(), BigDecimal.valueOf(350));
+    Room room3 = new Room(2L, 3, hotel, RoomType.EXTRA_VIEW, 2, List.of(new Reservation()), List.of(), BigDecimal.valueOf(300));
+    Room room4 = new Room(2L, 4, hotel, RoomType.EXTRA_VIEW, 2, List.of(new Reservation()), List.of(), BigDecimal.valueOf(300));
 
     List<Room> roomsAtHotel = List.of(room1, room2, room3, room4);
-    List<Room> roomsAvailable = List.of(room1, room4);
     BigDecimal minCost = BigDecimal.valueOf(280);
     BigDecimal maxCost = BigDecimal.valueOf(380);
 
@@ -45,7 +46,7 @@ class RoomServiceTest {
                 .findRoomsByHotel(Pageable.unpaged(), hotel))
                 .thenReturn(new PageImpl<>(roomsAtHotel));
 
-        assertThat(roomService.findRoomsByHotel(Pageable.unpaged() ,hotel))
+        assertThat(roomService.findRoomsByHotel(Pageable.unpaged(), hotel))
                 .isNotNull()
                 .hasSize(4)
                 .extracting("roomNumber")
@@ -53,55 +54,40 @@ class RoomServiceTest {
     }
 
     @Test
-    void findAvailableRoomsByHotelShouldReturnAvailableRooms() {
+    void findRoomsByHotelAndRoomTypeShouldReturnRoomsWithCorrectType() {
         when(roomRepository
-                .findRoomsByHotelAndAvailability(Pageable.unpaged(), hotel, true))
-                .thenReturn(new PageImpl<>(roomsAvailable));
-
-        assertThat(roomService.findAvailableRoomsByHotel(Pageable.unpaged(), hotel, true))
-                .isNotNull()
-                .hasSize(2)
-                .extracting("roomNumber")
-                .containsExactly(1, 4);
-    }
-
-    @Test
-    void findAvailableRoomsByHotelAndRoomTypeShouldReturnAvailableRoomsWithCorrectType() {
-        when(roomRepository
-                .findRoomsByHotelAndAvailabilityAndRoomType(Pageable.unpaged(), hotel, true, RoomType.EXTRA_VIEW))
+                .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.EXTRA_VIEW))
                 .thenReturn(new PageImpl<>(List.of(room4)));
 
         assertThat(roomService
-                .findAvailableRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, true, RoomType.EXTRA_VIEW))
+                .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.EXTRA_VIEW))
                 .isNotNull()
                 .hasSize(1)
                 .extracting("roomNumber")
                 .containsExactly(4);
 
         assertThat(roomService
-                .findAvailableRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, true, RoomType.EXTRA_VIEW))
+                .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.EXTRA_VIEW))
                 .extracting("roomType")
                 .containsExactly(RoomType.EXTRA_VIEW);
     }
 
     @Test
-    void findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetweenShouldReturnCorrectRoomsInPriceRange() {
+    void findRoomsByHotelAndRoomTypeAndCostBetweenShouldReturnCorrectRoomsInPriceRange() {
         PageImpl<Room> expectedRooms = new PageImpl<>(List.of(room2, room3, room4));
 
         when(roomRepository
-                .findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(
-                Pageable.unpaged(),
-                hotel,
-                true,
-                RoomType.EXTRA_VIEW,
-                minCost,
-                maxCost))
+                .findRoomsByHotelAndRoomTypeAndCostBetween(
+                        Pageable.unpaged(),
+                        hotel,
+                        RoomType.EXTRA_VIEW,
+                        minCost,
+                        maxCost))
                 .thenReturn(expectedRooms);
 
-        Page<Room> result = roomService.findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(
+        Page<Room> result = roomService.findRoomsByHotelAndRoomTypeAndCostBetween(
                 Pageable.unpaged(),
                 hotel,
-                true,
                 RoomType.EXTRA_VIEW,
                 minCost,
                 maxCost);
@@ -118,10 +104,10 @@ class RoomServiceTest {
     @Test
     void findAvailableRoomsByHotelShouldThrowRoomNotFoundExceptionWhenAllRoomsAreUnavailable() {
         when(roomRepository
-                .findRoomsByHotelAndAvailability(Pageable.unpaged(),hotel, true)).thenReturn(Page.empty());
+                .findRoomsByHotel(Pageable.unpaged(), hotel)).thenReturn(Page.empty());
 
         assertThatThrownBy(() -> roomService
-                .findAvailableRoomsByHotel(Pageable.unpaged(), hotel, true))
+                .findRoomsByHotel(Pageable.unpaged(), hotel))
                 .isInstanceOf(RoomNotFoundException.class)
                 .hasMessage("Room List is empty.");
     }
@@ -129,11 +115,11 @@ class RoomServiceTest {
     @Test
     void findAvailableRoomsByHotelAndRoomTypeShouldThrowRoomNotFoundExceptionWhenAllRoomsAreUnavailable() {
         when(roomRepository
-                .findRoomsByHotelAndAvailabilityAndRoomType(Pageable.unpaged(), hotel, true, RoomType.REGULAR))
+                .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.REGULAR))
                 .thenReturn(Page.empty());
 
         assertThatThrownBy(() -> roomService
-                .findAvailableRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, true, RoomType.REGULAR))
+                .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.REGULAR))
                 .isInstanceOf(RoomNotFoundException.class)
                 .hasMessage("Room List is empty.");
     }
@@ -141,13 +127,26 @@ class RoomServiceTest {
     @Test
     void findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetweenShouldThrowRoomNotFoundExceptionWhenAllRoomsAreUnavailable() {
         when(roomRepository
-                .findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(Pageable.unpaged(), hotel, true, RoomType.REGULAR, minCost, maxCost))
+                .findRoomsByHotelAndRoomTypeAndCostBetween(Pageable.unpaged(), hotel, RoomType.REGULAR, minCost, maxCost))
                 .thenReturn(Page.empty());
 
         assertThatThrownBy(() -> roomService
-                .findRoomsByHotelAndAvailabilityAndRoomTypeAndCostBetween(Pageable.unpaged(), hotel, true, RoomType.REGULAR, minCost, maxCost))
+                .findRoomsByHotelAndRoomTypeAndCostBetween(Pageable.unpaged(), hotel, RoomType.REGULAR, minCost, maxCost))
                 .isInstanceOf(RoomNotFoundException.class)
                 .hasMessage("Room List is empty.");
     }
 
+    @Test
+    void findAvailableHotelRoomsBetweenDatesShouldThrownExceptionThenCheckInIsAfterCheckOut() {
+        LocalDate checkOut = LocalDate.now();
+        LocalDate checkIn = checkOut.plusDays(1);
+        Reservation reservation = new Reservation();
+        reservation.setCheckIn(checkIn);
+        reservation.setCheckOut(checkOut);
+
+        assertThatThrownBy(() -> roomService
+                .findAvailableHotelRoomsBetweenDates(Pageable.unpaged(), hotel, reservation))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("Invalid dates");
+    }
 }

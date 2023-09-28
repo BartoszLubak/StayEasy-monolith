@@ -4,5 +4,9 @@ public enum Type {
     REGULAR,
     BUSINESS,
     PREMIUM,
-    OWNER
+    OWNER;
+
+    public static Type getDefault() {
+        return REGULAR;
+    }
 }

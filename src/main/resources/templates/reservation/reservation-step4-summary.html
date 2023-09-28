@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Reservation</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic}"
+          rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav th:insert="~{fragments/nav-bar}"></nav>
+<div>
+    <form th:action="@{/reservation/summary-confirm}" method="post">
+        <div class="ui top attached segment">
+            <div class="ui blue top attached label">Summary</div>
+            <div class="margin-top-10">
+                <a th:href="@{/hotels/{hotelId}(hotelId=${room.hotel.id})}"
+                   th:text="${room.hotel.name}"></a>
+            </div>
+            <div class="margin-top-10" id="quickSummaryDates" th:if="${reservation.checkIn != null}">
+                <p class="bold">Check in:</p>
+                <p th:text="${reservation.checkIn}"></p>
+                <p class="bold">Check out:</p>
+                <p th:text="${reservation.checkOut}"></p>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <table class="reservation-summary-table">
+                <tbody>
+                <tr>
+                    <td class="bold">Room Type</td>
+                    <td th:text="${roomType}"></td>
+                </tr>
+                <tr>
+                    <td class="bold">Room Number</td>
+                    <td th:text="${room.getRoomNumber()}"></td>
+                </tr>
+                <tr>
+                    <td class="bold">Cost per night</td>
+                    <td th:text="${room.getCost()}"></td>
+                </tr>
+
+                <tr>
+                    <td class="bold"># Capacity</td>
+                    <td th:text="${room.getRoomCapacity()}"></td>
+                </tr>
+                <tr>
+                    <td class="bold"># Nights</td>
+                    <td th:text="${nights}"></td>
+                </tr>
+                <tr>
+                    <td class="bold"># Guests</td>
+                    <td th:text="${reservation.getGuest().size()}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="ui divider"></div>
+
+            <table class="reservation-summary-table">
+                <tbody>
+                <tr>
+                    <td class="bold">Room</td>
+                    <td th:text="${roomCost}"></td>
+                </tr>
+
+                <tr th:if="${reservation.extras.size()>0}" th:each="extra:${reservation.getExtras()}" th:method="get">
+                    <td th:text="${extra.description}">Description</td>
+                    <td th:text="${extra.cost}">Cost</td>
+                <tr>
+                    <td class="bold">Total</td>
+                    <td>
+                        <h3 th:text="${reservation.getReservationCost()}"></h3>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="submit" class="btn btn-success" value="Confirm Reservation" />
+    </form>
+</div>
+<section th:insert="~{fragments/searchSection}"></section>
+<footer th:insert="~{fragments/footer}"></footer>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{https://cdn.startbootstrap.com/sb-forms-latest.js}"></script>
+</body>
+</html>

@@ -17,9 +17,9 @@
 <nav th:insert="~{fragments/nav-bar}"></nav>
 <div class="container-fluid m-auto">
     <div class="text-center text-dark">
-        <h1 class="mb-5">No available rooms<br>Find another</h1>
+        <h1 class="mb-5" th:text="${roomController}"></h1>
+        <h1 class="mb-5" th:text="${reservationController}"></h1>
         <button onclick="goBack()">Go back</button>
-
     </div>
 </div>
 <section th:insert="~{fragments/searchSection}"></section>
@@ -30,6 +30,7 @@
 <script>
     function goBack() {
         window.history.back();
-    }</script>
+    }
+</script>
 </body>
 </html>
