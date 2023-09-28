@@ -22,15 +22,16 @@
         <input type="text" id="firstName" name="firstName" th:field="*{name.firstName}" required><br>
         <label for="lastName">Last Name:</label>
         <input type="text" id="lastName" name="lastName" th:field="*{name.lastName}" required><br>
+        <div th:if="${guestList !=null}">
         <label for="child">Child:</label>
         <input type="checkbox" id="child" name="child" th:field="*{child}"><br>
+        </div>
         <button type="submit">Add Guest</button>
         <a th:if="${guestList != null and not #lists.isEmpty(guestList)}" class="styled-button" th:href="@{/reservation/extras}">Next</a>
     </form>
     <ul id="guestList">
         <li th:each="guests : ${guestList}" th:text="${guests.name.firstName} + ' ' + ${guests.name.lastName}"></li>
     </ul>
-    <a href="/reservation/next-step">Next</a>
 </div>
 
 

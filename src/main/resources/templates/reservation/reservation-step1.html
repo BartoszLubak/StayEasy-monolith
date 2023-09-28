@@ -34,12 +34,11 @@
 
     <div class="field">
         <div class="ui top attached segment">
-            <div class="ui top blue attached label">Room Information</div>
             <div class="ui basic segment">
                 <div class="ui two column grid meta-table">
                     <div class="row">
                         <div class="four wide column">
-                            <p class="meta-table__header">Hotel</p>
+                            <p class="meta-table__header">Hotel:</p>
                         </div>
                         <div class="twelve wide column">
                             <a th:href="@{'/hotels/' + ${hotel.id}}" th:text="${hotel.name}"></a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -14,7 +14,7 @@
 <body>
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-        <a class="navbar-brand" href="#!">Stay Easy!</a>
+        <a class="navbar-brand" href="#!" th:href="@{/}">Stay Easy!</a>
         <a class="btn btn-primary" href="#signup">Search hotel</a>
     </div>
 </nav>
