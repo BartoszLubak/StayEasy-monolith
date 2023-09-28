@@ -31,12 +31,13 @@
                 <tbody>
                 <tr th:each="extra,stat : ${roomExtras}">
                     <td th:text="${extra.description}"></td>
-                    <td th:text="${extra.getCost().longValue()()}"></td>
+                    <td th:text="${extra.getCost().doubleValue()}"></td>
                     <td th:text="${nights}*${extra.getCost().longValue()}"></td>
                     <td>
                         <div class="ui checkbox">
-                            <input type="checkbox" th:checked="*{extras}" th:field="*{extras}" th:value="${extra.id}" name="extrasIds"/>
-                            <label></label>
+                            <label>
+                                <input type="checkbox" th:checked="*{extras}" th:field="*{extras}" th:value="${extra.id}">
+                            </label>
                         </div>
                     </td>
                 </tr>

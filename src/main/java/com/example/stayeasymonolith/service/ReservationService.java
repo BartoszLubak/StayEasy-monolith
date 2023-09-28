@@ -1,5 +1,6 @@
 package com.example.stayeasymonolith.service;
 
+import com.example.stayeasymonolith.model.Extra;
 import com.example.stayeasymonolith.model.Guest;
 import com.example.stayeasymonolith.model.Reservation;
 import com.example.stayeasymonolith.model.Room;
@@ -78,6 +79,15 @@ public class ReservationService {
         long nights = ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut());
         return roomCost.multiply(BigDecimal.valueOf(nights));
     }
+
+    public void addExtrasCostsToReservation(Reservation reservation, BigDecimal allExtrasCost) {
+        reservation.setReservationCost(reservation.getReservationCost().add(allExtrasCost));
+    }
+
+    public void addExtrasToReservation(Reservation reservation, List<Extra> selectedExtras) {
+        reservation.setExtras(selectedExtras);
+    }
+
     @Transactional
     public void save(Reservation reservation){
         reservationRepository.save(reservation);

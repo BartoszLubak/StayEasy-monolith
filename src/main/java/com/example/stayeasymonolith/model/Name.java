@@ -12,6 +12,6 @@ import lombok.Setter;
 public class Name {
     private String firstName;
     private String lastName;
-    private Type type;
+    private Type type = Type.getDefault();
 
 }

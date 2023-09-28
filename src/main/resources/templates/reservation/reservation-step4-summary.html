@@ -16,11 +16,11 @@
 <body>
 <nav th:insert="~{fragments/nav-bar}"></nav>
 <div>
-    <form th:action="@{reservation/summary-confirm}" method="post">
+    <form th:action="@{/reservation/summary-confirm}" method="post">
         <div class="ui top attached segment">
             <div class="ui blue top attached label">Summary</div>
             <div class="margin-top-10">
-                <a th:href="@{/hotel/{hotelId}(hotelId=${room.hotel.id})}"
+                <a th:href="@{/hotels/{hotelId}(hotelId=${room.hotel.id})}"
                    th:text="${room.hotel.name}"></a>
             </div>
             <div class="margin-top-10" id="quickSummaryDates" th:if="${reservation.checkIn != null}">

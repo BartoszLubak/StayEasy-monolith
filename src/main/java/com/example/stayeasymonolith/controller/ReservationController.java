@@ -83,7 +83,7 @@ public class ReservationController {
     @GetMapping("/extras")
     public String getStep3FormExtras(Model model) {
         Reservation reservation = sessionService.getReservationFromSession();
-        model.addAttribute("extra", new Extra());
+        model.addAttribute("extras", new Extra());
         model.addAttribute("roomExtras", extraService.findExtrasByRoom(reservation.getRooms().get(0)));
         model.addAttribute("reservation", reservation);
         model.addAttribute("nights", ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut()));
@@ -91,12 +91,13 @@ public class ReservationController {
     }
 
     @PostMapping("/add-extras")
-    public String addExtrasToReservation(@RequestParam(value = "extrasIds", required = false) List<Long> extrasIds) {
+    public String addExtrasToReservation(@RequestParam(value = "extras", required = false) List<Long> extrasIds) {
         Reservation reservation = sessionService.getReservationFromSession();
         List<Extra> selectedExtras = extraService.extrasByIds(extrasIds);
-        reservation.setExtras(selectedExtras);
-        reservation.setReservationCost(reservation.getReservationCost().add(extraService.getAllExtrasCost(selectedExtras)));
-//        extraService.setReservation(reservation, reservation.getExtras());
+        BigDecimal allExtrasCost = extraService.getAllExtrasCost(selectedExtras);
+        reservationService.addExtrasToReservation(reservation, selectedExtras);
+        reservationService.addExtrasCostsToReservation(reservation, allExtrasCost);
+        extraService.setReservation(reservation, reservation.getExtras());
         sessionService.updateReservationInSession(reservation);
         return "redirect:/reservation/summary";
     }
@@ -112,18 +113,18 @@ public class ReservationController {
         model.addAttribute("roomType", roomService.getRoomTypeEnumNamesFromProperties(Set.of(room.getRoomType())));
         model.addAttribute("nights", ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut()));
         model.addAttribute("roomCost", reservationService.getReservationRoomCostWithoutExtras(reservation));
-        return "/fragments/reservationSummary";
+        return "/reservation/reservation-step4-summary";
     }
 
     @PostMapping("/summary-confirm")
     public String confirmReservation() {
-        Reservation reservation=sessionService.getReservationFromSession();
+        Reservation reservation = sessionService.getReservationFromSession();
         reservationService.save(reservation);
         guestService.saveGuests(reservation.getGuest());
         roomService.saveRooms(reservation.getRooms());
         extraService.saveExtras(reservation.getExtras());
         sessionService.closeReservationSession();
-        return "redirect:/"; //TODO redirect to User Reservation
+        return "redirect:/"; //TODO redirect to Reservation success html
     }
 
 }

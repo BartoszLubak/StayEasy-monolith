@@ -27,10 +27,6 @@ public class ExtraService {
         return extraRepository.findExtraByRoomListIsContaining(room);
     }
 
-    public Extra getExtraById(long extraId) {
-        return extraRepository.findExtrasById(extraId);
-    }
-
     public List<Extra> extrasByIds(List<Long> extrasIds) {
         return extraRepository.findAllById(extrasIds);
     }
@@ -40,6 +36,7 @@ public class ExtraService {
             extra.getReservations().add(reservation);
         }
     }
+
     @Transactional
     public void saveExtras(List<Extra> extras) {
         extraRepository.saveAll(extras);
