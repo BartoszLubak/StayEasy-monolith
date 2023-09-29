@@ -24,7 +24,7 @@ public class Room {
     private Hotel hotel;
     private RoomType roomType;
     private int roomCapacity;
-    @ManyToMany
+    @ManyToMany (cascade = CascadeType.REMOVE)
     @JoinTable(
             name="reservation_room",
             joinColumns = @JoinColumn(name="room_id"),

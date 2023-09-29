@@ -79,7 +79,7 @@ public class RoomService {
 
     private void throwRoomNotFoundExceptionWhenRoomPageIsEmpty(Page<Room> rooms) {
         if (rooms.isEmpty()) {
-            throw new RoomNotFoundException("Room List is empty.");
+            throw new RoomNotFoundException("No available rooms");
         }
     }
 

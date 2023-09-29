@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Rooms in Your Hotel</title>
+    <title>Extra in Your Hotel</title>
     <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet"
           type="text/css"/>
@@ -17,9 +17,9 @@
 <nav th:insert="~{fragments/nav-bar}"></nav>
 <div class="container-fluid m-auto">
     <div class="text-center text-dark">
-        <h1 class="mb-5" th:text="${roomController}"></h1>
-        <h1 class="mb-5" th:text="${reservationController}"></h1>
+        <h1 class="mb-5">No available extras</h1>
         <button onclick="goBack()">Go back</button>
+
     </div>
 </div>
 <section th:insert="~{fragments/searchSection}"></section>
@@ -30,7 +30,6 @@
 <script>
     function goBack() {
         window.history.back();
-    }
-</script>
+    }</script>
 </body>
 </html>

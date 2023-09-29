@@ -1,11 +1,15 @@
 package com.example.stayeasymonolith.service;
 
+import com.example.stayeasymonolith.exceptions.ExtraNotFoundException;
+import com.example.stayeasymonolith.exceptions.RoomNotFoundException;
 import com.example.stayeasymonolith.model.Extra;
-import com.example.stayeasymonolith.model.Guest;
+import com.example.stayeasymonolith.model.Hotel;
 import com.example.stayeasymonolith.model.Reservation;
 import com.example.stayeasymonolith.model.Room;
 import com.example.stayeasymonolith.repository.ExtraRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,9 +18,11 @@ import java.util.List;
 @Service
 public class ExtraService {
     private final ExtraRepository extraRepository;
+    private final RoomService roomService;
 
-    public ExtraService(ExtraRepository extraRepository) {
+    public ExtraService(ExtraRepository extraRepository, RoomService roomService) {
         this.extraRepository = extraRepository;
+        this.roomService = roomService;
     }
 
     public BigDecimal getAllExtrasCost(List<Extra> selectedExtras) {
@@ -31,6 +37,14 @@ public class ExtraService {
         return extraRepository.findAllById(extrasIds);
     }
 
+    public Page<Extra> findExtrasByHotel(Pageable pageable, Hotel hotel) throws ExtraNotFoundException {
+        try {
+            return extraRepository.findExtrasByRoomListIn(pageable, roomService.findRoomsByHotel(Pageable.unpaged(), hotel).getContent());
+        } catch (RoomNotFoundException e) {
+            throw new ExtraNotFoundException("No extra available");
+        }
+    }
+
     public void setReservation(Reservation reservation, List<Extra> extras) {
         for (Extra extra : extras) {
             extra.getReservations().add(reservation);
@@ -41,4 +55,6 @@ public class ExtraService {
     public void saveExtras(List<Extra> extras) {
         extraRepository.saveAll(extras);
     }
+
+
 }
