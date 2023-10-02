@@ -26,6 +26,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class HotelServiceTest {
+    public static final String NAME = "name";
+    public static final String HOTEL_LIST_IS_EMPTY = "Hotel list is empty.";
     @Mock
     private HotelRepository hotelRepository;
     @InjectMocks
@@ -71,7 +73,7 @@ class HotelServiceTest {
         assertThat(resultByName)
                 .isNotNull()
                 .hasSize(1)
-                .extracting("name")
+                .extracting(NAME)
                 .containsExactly("Test0");
     }
 
@@ -85,7 +87,7 @@ class HotelServiceTest {
         assertThat(resultByCity)
                 .isNotNull()
                 .hasSize(2) // Oczekiwana liczba wyników
-                .extracting("name")
+                .extracting(NAME)
                 .containsExactly("Test1", "Test1");
     }
 
@@ -99,7 +101,7 @@ class HotelServiceTest {
         assertThat(resultByNameAndCity)
                 .isNotNull()
                 .hasSize(2)
-                .extracting("name")
+                .extracting(NAME)
                 .containsExactly("Test1", "Test1");
     }
 
@@ -110,6 +112,6 @@ class HotelServiceTest {
 
         assertThatThrownBy(() -> hotelService.findHotelsByNameOrAddressCity(Pageable.unpaged(), "Test", "City"))
                 .isInstanceOf(HotelNotFoundException.class)
-                .hasMessage("Hotel list is empty.");
+                .hasMessage(HOTEL_LIST_IS_EMPTY);
     }
 }

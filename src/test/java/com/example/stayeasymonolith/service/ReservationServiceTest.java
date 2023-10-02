@@ -23,6 +23,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ReservationServiceTest {
+    public static final String GUEST = "guest";
+    public static final String ROOMS = "rooms";
     @Mock
     private ReservationRepository reservationRepository;
     @InjectMocks
@@ -67,7 +69,7 @@ class ReservationServiceTest {
         assertThat(result)
                 .isNotNull()
                 .hasSize(2)
-                .extracting("guest")
+                .extracting(GUEST)
                 .containsExactly(List.of(guest1), List.of(guest1, guest2));
     }
 
@@ -80,7 +82,7 @@ class ReservationServiceTest {
         assertThat(result)
                 .isNotNull()
                 .hasSize(2)
-                .extracting("rooms")
+                .extracting(ROOMS)
                 .containsExactly(List.of(room1, room2), List.of(room1, room2, room3));
     }
 

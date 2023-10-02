@@ -26,6 +26,10 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RoomServiceTest {
+    public static final String NO_AVAILABLE_ROOMS = "No available rooms";
+    public static final String INVALID_DATES = "Invalid dates";
+    public static final String ROOM_NUMBER = "roomNumber";
+    public static final String ROOM_TYPE = "roomType";
     @Mock
     private RoomRepository roomRepository;
     @InjectMocks
@@ -49,7 +53,7 @@ class RoomServiceTest {
         assertThat(roomService.findRoomsByHotel(Pageable.unpaged(), hotel))
                 .isNotNull()
                 .hasSize(4)
-                .extracting("roomNumber")
+                .extracting(ROOM_NUMBER)
                 .containsExactly(1, 2, 3, 4);
     }
 
@@ -63,12 +67,12 @@ class RoomServiceTest {
                 .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.EXTRA_VIEW))
                 .isNotNull()
                 .hasSize(1)
-                .extracting("roomNumber")
+                .extracting(ROOM_NUMBER)
                 .containsExactly(4);
 
         assertThat(roomService
                 .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.EXTRA_VIEW))
-                .extracting("roomType")
+                .extracting(ROOM_TYPE)
                 .containsExactly(RoomType.EXTRA_VIEW);
     }
 
@@ -109,7 +113,7 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService
                 .findRoomsByHotel(Pageable.unpaged(), hotel))
                 .isInstanceOf(RoomNotFoundException.class)
-                .hasMessage("Room List is empty.");
+                .hasMessage(NO_AVAILABLE_ROOMS);
     }
 
     @Test
@@ -121,7 +125,7 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService
                 .findRoomsByHotelAndRoomType(Pageable.unpaged(), hotel, RoomType.REGULAR))
                 .isInstanceOf(RoomNotFoundException.class)
-                .hasMessage("Room List is empty.");
+                .hasMessage(NO_AVAILABLE_ROOMS);
     }
 
     @Test
@@ -133,7 +137,7 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService
                 .findRoomsByHotelAndRoomTypeAndCostBetween(Pageable.unpaged(), hotel, RoomType.REGULAR, minCost, maxCost))
                 .isInstanceOf(RoomNotFoundException.class)
-                .hasMessage("Room List is empty.");
+                .hasMessage(NO_AVAILABLE_ROOMS);
     }
 
     @Test
@@ -147,6 +151,6 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService
                 .findAvailableHotelRoomsBetweenDates(Pageable.unpaged(), hotel, reservation))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Invalid dates");
+                .hasMessage(INVALID_DATES);
     }
 }
