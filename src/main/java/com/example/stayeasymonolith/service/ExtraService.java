@@ -39,9 +39,14 @@ public class ExtraService {
 
     public Page<Extra> findExtrasByHotel(Pageable pageable, Hotel hotel) throws ExtraNotFoundException {
         try {
-            return extraRepository.findExtrasByRoomListIn(pageable, roomService.findRoomsByHotel(Pageable.unpaged(), hotel).getContent());
+            Page<Room> rooms = roomService.findRoomsByHotel(Pageable.unpaged(), hotel);
+            if (rooms.isEmpty()) {
+                throw new RoomNotFoundException("No rooms found for the hotel");
+            }
+            return extraRepository.findExtrasByRoomListIn(pageable, rooms.getContent());
         } catch (RoomNotFoundException e) {
-            throw new ExtraNotFoundException("No extra available");
+            e.printStackTrace();
+            throw new ExtraNotFoundException("No extras available");
         }
     }
 
