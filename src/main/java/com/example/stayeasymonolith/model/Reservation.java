@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToMany(mappedBy = "reservations")
     private List<Room> rooms;
@@ -30,5 +30,7 @@ public class Reservation {
     private BigDecimal reservationCost;
     @ManyToMany(mappedBy = "reservations")
     private List<Extra> extras;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

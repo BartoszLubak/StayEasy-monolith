@@ -1,14 +1,12 @@
 package com.example.stayeasymonolith.controller;
 
 import com.example.stayeasymonolith.exceptions.ExtraNotFoundException;
-import com.example.stayeasymonolith.exceptions.RoomNotFoundException;
 import com.example.stayeasymonolith.model.Hotel;
 import com.example.stayeasymonolith.service.ExtraService;
 import com.example.stayeasymonolith.service.HotelService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 

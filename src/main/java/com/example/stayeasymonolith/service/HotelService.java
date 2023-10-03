@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,7 @@ public class HotelService {
     }
 
     public Page<Hotel> findAllHotelsByHotelOwner(Pageable pageable, String hotelOwner) {
-        Page<Hotel> hotels = hotelRepository.findHotelsByHotelOwner(pageable, hotelOwner);
+        Page<Hotel> hotels = hotelRepository.findHotelsByUser(pageable, hotelOwner);
         throwHotelNotFoundExceptionWhenHotelPageIsEmpty(hotels);
         return hotels;
     }

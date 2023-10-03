@@ -18,7 +18,7 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
     Page<Hotel> findHotelsByName(Pageable pageable, String name);
 
     Page<Hotel> findHotelsByAddress_City(Pageable pageable, String city);
-    Page<Hotel> findHotelsByHotelOwner(Pageable pageable, String hotelOwner);
+    Page<Hotel> findHotelsByUser(Pageable pageable, String user);
 
     @Query("SELECT h FROM Hotel h WHERE LOWER(h.name) LIKE LOWER(CONCAT('%', :name, '%'))"
             + "AND LOWER(h.address.city) LIKE LOWER(CONCAT('%', :city, '%'))")

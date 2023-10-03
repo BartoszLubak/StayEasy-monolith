@@ -24,6 +24,6 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms;
     @ManyToOne
-    @JoinColumn(name = "hotel_owner_id")
-    private HotelOwner hotelOwner;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

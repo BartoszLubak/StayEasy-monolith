@@ -4,8 +4,8 @@ public enum Type {
     REGULAR,
     BUSINESS,
     PREMIUM,
-    OWNER;
-
+    HOTEL_ADMIN,
+    ADMIN;
     public static Type getDefault() {
         return REGULAR;
     }

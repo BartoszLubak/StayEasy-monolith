@@ -3,7 +3,7 @@ package com.example.stayeasymonolith.service;
 import com.example.stayeasymonolith.exceptions.HotelNotFoundException;
 import com.example.stayeasymonolith.model.Address;
 import com.example.stayeasymonolith.model.Hotel;
-import com.example.stayeasymonolith.model.HotelOwner;
+import com.example.stayeasymonolith.model.User;
 import com.example.stayeasymonolith.repository.HotelRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,9 +33,9 @@ class HotelServiceTest {
     @InjectMocks
     private HotelService hotelService;
 
-    Hotel hotel1 = new Hotel(0, "Test0", new Address(), 5, List.of(), new HotelOwner());
-    Hotel hotel2 = new Hotel(1, "Test1", new Address("PL", "Opole", "Test1", "1"), 5, List.of(), new HotelOwner());
-    Hotel hotel3 = new Hotel(2, "Test1", new Address("PL", "Opole", "Test2", "2"), 5, List.of(), new HotelOwner());
+    Hotel hotel1 = new Hotel(0, "Test0", new Address(), 5, List.of(), new User());
+    Hotel hotel2 = new Hotel(1, "Test1", new Address("PL", "Opole", "Test1", "1"), 5, List.of(), new User());
+    Hotel hotel3 = new Hotel(2, "Test1", new Address("PL", "Opole", "Test2", "2"), 5, List.of(), new User());
     List<Hotel> hotelsInOpole = List.of(hotel2, hotel3);
     List<Hotel> hotels = List.of(hotel1, hotel2, hotel3);
 
