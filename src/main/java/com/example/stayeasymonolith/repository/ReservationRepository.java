@@ -13,5 +13,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Page<Reservation> findReservationsByGuestContaining(Pageable pageable, Guest guest);
 
     Page<Reservation> findReservationsByRoomsContaining(Pageable pageable, Room room);
-
 }

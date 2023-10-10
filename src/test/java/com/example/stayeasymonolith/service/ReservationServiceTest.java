@@ -1,9 +1,6 @@
 package com.example.stayeasymonolith.service;
 
-import com.example.stayeasymonolith.model.Extra;
-import com.example.stayeasymonolith.model.Guest;
-import com.example.stayeasymonolith.model.Reservation;
-import com.example.stayeasymonolith.model.Room;
+import com.example.stayeasymonolith.model.*;
 import com.example.stayeasymonolith.repository.ReservationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,21 +37,24 @@ class ReservationServiceTest {
             LocalDate.of(2023, 11, 5),
             List.of(guest1),
             new BigDecimal(100),
-            List.of());
+            List.of(),
+            new User());
     Reservation reservation2 = new Reservation(2L,
             List.of(room1, room2),
             LocalDate.of(2024, 1, 22),
             LocalDate.of(2024, 1, 31),
             List.of(guest1, guest2),
             new BigDecimal(1200),
-            List.of());
+            List.of(),
+            new User());
     Reservation reservation3 = new Reservation(3L,
             List.of(room1, room2, room3),
             LocalDate.of(2023, 11, 5),
             LocalDate.of(2023, 11, 7),
             List.of(guest2),
             new BigDecimal(999),
-            List.of());
+            List.of(),
+            new User());
     private Page<Reservation> getReservationsByRoomsContaining(Room room) {
         return reservationRepository.findReservationsByRoomsContaining(Pageable.unpaged(), room);
     }

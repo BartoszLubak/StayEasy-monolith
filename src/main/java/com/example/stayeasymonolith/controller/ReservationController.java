@@ -23,14 +23,16 @@ public class ReservationController {
     private final SessionService sessionService;
     private final ExtraService extraService;
     private final GuestService guestService;
+    private final UserService userService;
 
-    public ReservationController(HotelService hotelService, RoomService roomService, ReservationService reservationService, SessionService sessionService, ExtraService extraService, GuestService guestService) {
+    public ReservationController(HotelService hotelService, RoomService roomService, ReservationService reservationService, SessionService sessionService, ExtraService extraService, GuestService guestService, UserService userService) {
         this.hotelService = hotelService;
         this.roomService = roomService;
         this.reservationService = reservationService;
         this.sessionService = sessionService;
         this.extraService = extraService;
         this.guestService = guestService;
+        this.userService = userService;
     }
 
 
@@ -118,7 +120,11 @@ public class ReservationController {
 
     @PostMapping("/summary-confirm")
     public String confirmReservation() {
+        User user = userService.getCurrentUser();
         Reservation reservation = sessionService.getReservationFromSession();
+        user.getReservations().add(reservation);
+        reservation.setUser(user);
+        userService.save(user);
         reservationService.save(reservation);
         guestService.saveGuests(reservation.getGuest());
         roomService.saveRooms(reservation.getRooms());

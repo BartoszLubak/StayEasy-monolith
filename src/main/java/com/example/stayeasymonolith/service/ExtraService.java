@@ -8,6 +8,7 @@ import com.example.stayeasymonolith.model.Reservation;
 import com.example.stayeasymonolith.model.Room;
 import com.example.stayeasymonolith.repository.ExtraRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ExtraService {
     private final ExtraRepository extraRepository;
     private final RoomService roomService;
@@ -59,6 +61,7 @@ public class ExtraService {
     @Transactional
     public void saveExtras(List<Extra> extras) {
         extraRepository.saveAll(extras);
+        log.info("Saved extras: {}", extras);
     }
 
 

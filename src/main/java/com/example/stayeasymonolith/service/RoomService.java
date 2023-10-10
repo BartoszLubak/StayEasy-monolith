@@ -4,6 +4,7 @@ import com.example.stayeasymonolith.exceptions.RoomNotFoundException;
 import com.example.stayeasymonolith.model.*;
 import com.example.stayeasymonolith.repository.RoomRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ReservationService reservationService;
@@ -98,5 +100,6 @@ public class RoomService {
     @Transactional
     public void saveRooms(List<Room> rooms) {
         roomRepository.saveAll(rooms);
+        log.info("Saved rooms: {}", rooms);
     }
 }

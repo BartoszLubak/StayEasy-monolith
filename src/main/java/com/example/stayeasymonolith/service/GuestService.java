@@ -4,11 +4,13 @@ import com.example.stayeasymonolith.model.Guest;
 import com.example.stayeasymonolith.model.Reservation;
 import com.example.stayeasymonolith.repository.GuestRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class GuestService {
     private final GuestRepository guestRepository;
 
@@ -25,5 +27,6 @@ public class GuestService {
     @Transactional
     public void saveGuests(List<Guest> guests) {
         guestRepository.saveAll(guests);
+        log.info("Saved guests: {}", guests);
     }
 }

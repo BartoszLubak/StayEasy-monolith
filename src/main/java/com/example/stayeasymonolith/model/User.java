@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,10 +34,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Hotel> hotels;
 
-    public User(Name name, String emailAddress, String password) {
-        this.name = name;
+    public User(String firstName, String emailAddress, String password, Type type) {
+        this.name = new Name(firstName);
         this.emailAddress = emailAddress;
         this.password = password;
+        this.name.setType(type);
     }
 
     @Override

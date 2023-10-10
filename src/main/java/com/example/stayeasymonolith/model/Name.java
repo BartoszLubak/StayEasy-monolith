@@ -14,4 +14,7 @@ public class Name {
     private String lastName;
     private Type type = Type.getDefault();
 
+    public Name(String firstName) {
+        this.firstName = firstName;
+    }
 }

@@ -6,6 +6,7 @@ import com.example.stayeasymonolith.model.Reservation;
 import com.example.stayeasymonolith.model.Room;
 import com.example.stayeasymonolith.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@Slf4j
 public class ReservationService {
     private final ReservationRepository reservationRepository;
 
@@ -56,7 +58,7 @@ public class ReservationService {
         if (guests == null) {
             guests = new ArrayList<>();
         }
-        for(Guest guestAdd:guests){
+        for (Guest guestAdd : guests) {
             guestAdd.setReservation(reservation);
         }
         guests.add(guest);
@@ -82,14 +84,18 @@ public class ReservationService {
 
     public void addExtrasCostsToReservation(Reservation reservation, BigDecimal allExtrasCost) {
         reservation.setReservationCost(reservation.getReservationCost().add(allExtrasCost));
+        log.info("Extras costs: {} added to reservation", allExtrasCost);
     }
 
     public void addExtrasToReservation(Reservation reservation, List<Extra> selectedExtras) {
         reservation.setExtras(selectedExtras);
+        log.info("Extras added {} to reservation", selectedExtras);
     }
 
     @Transactional
-    public void save(Reservation reservation){
-        reservationRepository.save(reservation);
+    public Reservation save(Reservation reservation) {
+        reservation = reservationRepository.save(reservation);
+        log.info("Saved reservation: {}", reservation);
+        return reservation;
     }
 }
