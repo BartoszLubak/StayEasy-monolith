@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -28,7 +27,7 @@ public class User implements UserDetails {
     private String password;
     private Boolean locked = false;
     private Boolean enabled = true;
-    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
     @OneToMany(mappedBy = "user")
@@ -39,6 +38,16 @@ public class User implements UserDetails {
         this.emailAddress = emailAddress;
         this.password = password;
         this.name.setType(type);
+    }
+
+    public User(Name name, String emailAddress, String password, Boolean locked, Boolean enabled, List<Reservation> reservations, List<Hotel> hotels) {
+        this.name = name;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.locked = locked;
+        this.enabled = enabled;
+        this.reservations = reservations;
+        this.hotels = hotels;
     }
 
     @Override
