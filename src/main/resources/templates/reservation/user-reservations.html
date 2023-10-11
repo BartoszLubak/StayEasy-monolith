@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>Your Reservations</title>
+  <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet"
+        type="text/css"/>
+  <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic}"
+        rel="stylesheet" type="text/css"/>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav th:insert="~{fragments/nav-bar}"></nav>
+<div class="container-fluid m-auto">
+  <table class="table table-hover table-dark text-center">
+    <thead>
+    <tr class="table-active">
+      <th scope="col"><a class="sorted" sd:pagination-sort="rooms.number">Hotel</a></th>
+      <th scope="col"><a class="sorted" sd:pagination-sort="rooms">Check In</a></th>
+      <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Check Out</a></th>
+      <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Number of Guests</a></th>
+      <th scope="col"><a class="sorted" sd:pagination-sort="hotel.stars">Cost</a></th>
+      <th scope="col">Edit</th>
+      <th scope="col">Cancel</th>
+      <th scope="col">Detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation: ${userReservations}">
+      <td th:text="${reservation.getRooms()}">Hotel</td>
+      <td th:text="${reservation.checkIn}">Check In<</td>
+      <td th:text="${reservation.checkOut}">Check Out<</td>
+      <td th:text="${reservation.getGuest().size()}">Number of Guests</td>
+      <td th:text="${reservation.getReservationCost()}">Cost</td>
+      <td>
+        <button type="submit">Edit</button>
+      </td>
+      <td>
+        <button type="submit">Cancel</button>
+      </td>
+      <td>
+        <button type="submit">Detail</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <th:block th:if="${userReservations.hasNext()}" th:switch="${userReservations.hasNext()}">
+    <case value="true">
+      <a href="/reservations?page=${userReservations.nextPageable().pageNumber}&size=10">Next</a>
+    </case>
+  </th:block>
+</div>
+<section th:insert="~{fragments/searchSection}"></section>
+<footer th:insert="~{fragments/footer}"></footer>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{https://cdn.startbootstrap.com/sb-forms-latest.js}"></script>
+</body>
+</html>

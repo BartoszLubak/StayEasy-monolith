@@ -28,7 +28,7 @@ public class HotelService {
         boolean nameCheck = !name.isEmpty() || !name.isBlank();
         boolean cityCheck = !city.isEmpty() || !city.isBlank();
         Page<Hotel> hotels;
-        if(nameCheck && cityCheck){
+        if (nameCheck && cityCheck) {
             hotels = hotelRepository.findAllByNameAndAddress_City(pageable, name, city);
         } else if (!nameCheck) {
             hotels = hotelRepository.findHotelsByAddress_City(pageable, city);
@@ -62,7 +62,7 @@ public class HotelService {
         }
     }
 
-    public Set<RoomType> roomTypesInHotel (Hotel hotel){
+    public Set<RoomType> roomTypesInHotel(Hotel hotel) {
         return roomService.findRoomsByHotel(Pageable.unpaged(), hotel)
                 .stream()
                 .map(Room::getRoomType)
@@ -76,7 +76,7 @@ public class HotelService {
     }
 
     @Transactional
-    public void deleteHotel (Hotel hotel){
+    public void deleteHotel(Hotel hotel) {
         hotelRepository.delete(hotel);
     }
 }

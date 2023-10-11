@@ -1,9 +1,7 @@
 package com.example.stayeasymonolith.service;
 
-import com.example.stayeasymonolith.model.Extra;
-import com.example.stayeasymonolith.model.Guest;
-import com.example.stayeasymonolith.model.Reservation;
-import com.example.stayeasymonolith.model.Room;
+import com.example.stayeasymonolith.exceptions.ReservationNotFoundException;
+import com.example.stayeasymonolith.model.*;
 import com.example.stayeasymonolith.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -70,10 +68,9 @@ public class ReservationService {
         return guests != null && guests.size() >= room.getRoomCapacity();
     }
 
-    public BigDecimal updateReservationCostsWithoutExtras(Reservation reservation) {
+    public void updateReservationCostsWithoutExtras(Reservation reservation) {
         BigDecimal reservationRoomCost = getReservationRoomCostWithoutExtras(reservation);
         reservation.setReservationCost(reservationRoomCost);
-        return reservationRoomCost;
     }
 
     public BigDecimal getReservationRoomCostWithoutExtras(Reservation reservation) {
@@ -90,6 +87,16 @@ public class ReservationService {
     public void addExtrasToReservation(Reservation reservation, List<Extra> selectedExtras) {
         reservation.setExtras(selectedExtras);
         log.info("Extras added {} to reservation", selectedExtras);
+    }
+
+    public Page<Reservation> findReservationByUser(Pageable pageable, User user) {
+        Page<Reservation> reservationsByUserContains = reservationRepository.findAllByUserContains(pageable, user.getEmailAddress());
+        if (reservationsByUserContains.isEmpty()) {
+            log.info("User {} do not have reservations", user.getEmailAddress());
+            throw new ReservationNotFoundException("User: " + user.getEmailAddress() + " has no reservations");
+        } else {
+        return reservationsByUserContains;
+        }
     }
 
     @Transactional
